@@ -26,7 +26,7 @@ Download the repository from GitHub using either:
 * Or clone the repository using Git:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/cesium-ui/Space-shooters
 ```
 
 ### 2. Download the Required Files
