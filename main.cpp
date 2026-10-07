@@ -1,5 +1,5 @@
-#include<iostream>
-#include<raylib.h>
+#include <iostream>
+#include <raylib.h>
 
 float spaceship_x = 450;
 float spaceship_y = 700;
@@ -9,189 +9,123 @@ float particle_y;
 float particle_speed = 0.2;
 bool particle_active = false;
 
-float enemy1_x = 0;
-float enemy1_y = 100;
-float enemy1_speed = 0.1;
-float enemy1_health = 2;
-bool enemy1_alive = true;
+struct Enemy
+{
+    float x;
+    float y;
+    float speed;
+    float health;
+    bool alive;
+    Texture2D texture;
+    float scale;
+    Rectangle rect;
+};
 
-float enemy2_speed = -0.1;
-float enemy2_x = 900;
-float enemy2_y = 200;
-float enemy2_health = 2;
-bool enemy2_alive = true;
+Enemy enemy1, enemy2, enemy3, enemy4, enemy5;
 
-float enemy3_speed = 0.15;
-float enemy3_x = 200;
-float enemy3_y = 300;
-float enemy3_health = 2;
-bool enemy3_alive = true;
-
-float enemy4_speed = 0.12;
-float enemy4_x = 700;
-float enemy4_y = 400;
-float enemy4_health = 2;
-bool enemy4_alive = true;
-
-float enemy5_speed = -0.08;
-float enemy5_x = 500;
-float enemy5_y = 500;
-float enemy5_health = 2;
-bool enemy5_alive = true;
-
-void spaceship_movement(){
-
+void spaceship_movement()
+{
     if (IsKeyDown(KEY_W))
         spaceship_y -= 1;
+
     if (IsKeyDown(KEY_A))
         spaceship_x -= 1;
+
     if (IsKeyDown(KEY_S))
         spaceship_y += 1;
+
     if (IsKeyDown(KEY_D))
         spaceship_x += 1;
 
-        if (spaceship_x < 0)
-            spaceship_x = 0;
-        if (spaceship_x>700-121)
-            spaceship_x = 700-121;
-        
-        if (spaceship_y < 0)
-            spaceship_y = 0;
-        if (spaceship_y>1150-120.4)
-            spaceship_y = 1150-120.4;
+    if (spaceship_x < 0)
+        spaceship_x = 0;
 
+    if (spaceship_x > 700 - 121)
+        spaceship_x = 700 - 121;
+
+    if (spaceship_y < 0)
+        spaceship_y = 0;
+
+    if (spaceship_y > 1150 - 120.4)
+        spaceship_y = 1150 - 120.4;
 }
 
-void collison(Rectangle enemyrect1,Rectangle enemyrect2,Rectangle enemyrect3,Rectangle enemyrect4,Rectangle enemyrect5){
+
+void collision(Enemy& enemy)
+{
+    if (!enemy.alive || !particle_active)
+        return;
+
     if (CheckCollisionCircleRec(
-        {particle_x,particle_y},
+        {particle_x, particle_y},
         5,
-        enemyrect1)){
+        enemy.rect))
+    {
         particle_active = false;
-        enemy1_health -= 1;
-        std::cout<< enemy1_health << std::endl;
-        
-        if (enemy1_health<=0){
-            enemy1_alive = false;
-            }
-        }
-    if (CheckCollisionCircleRec(
-        {particle_x,particle_y},
-        5,
-        enemyrect2)){
-            particle_active = false;
-            enemy2_health -= 1;
-        if (enemy2_health<=0){
-            enemy2_alive = false;
-            }
-        }
-    if (CheckCollisionCircleRec(
-        {particle_x,particle_y},
-        5,
-        enemyrect3)){
-            particle_active = false;
-            enemy3_health -= 1;
-        if (enemy3_health<=0){
-            enemy3_alive = false;
-            }
-        }
-    if (CheckCollisionCircleRec(
-        {particle_x,particle_y},
-        5,
-        enemyrect4)){
-        particle_active = false;
-        enemy4_health -= 1;
 
-        if (enemy4_health<=0){
-            enemy4_alive = false;
-            }
-        }
-    if (CheckCollisionCircleRec(
-        {particle_x,particle_y},
-        5,
-        enemyrect5)){
-        particle_active = false;
-        enemy5_health -= 1;
-        
-        if (enemy5_health<=0){
-            enemy5_alive = false;
-            }
-        }
-}
+        enemy.health -= 1;
 
-void enemy_movement(Texture2D enemy1,
-    Texture2D enemy2,
-    Texture2D enemy3,
-    Texture2D enemy4,
-    Texture2D enemy5,
-    Rectangle enemyrect1
-    ,Rectangle enemyrect2,
-    Rectangle enemyrect3,
-    Rectangle enemyrect4
-    ,Rectangle enemyrect5){
-    if (enemy1_x > GetScreenWidth())
-{
-        enemy1_x = 50;
-}
-    if (enemy2_x < 0)
-{
-        enemy2_x = 950;
-}
-    if (enemy3_x > GetScreenWidth())
-{
-        enemy3_x = 50;
-}
+        std::cout << enemy.health << std::endl;
 
-    if (enemy4_x > GetScreenWidth())
-{
-        enemy4_x = 50;
-}
-
-    if (enemy5_x < 0)
-{
-        enemy5_x = 950;
-}
-        if(enemy1_alive)
+        if (enemy.health <= 0)
         {
-            DrawTextureEx(enemy1,{enemy1_x,enemy1_y},0.0f,0.08f,WHITE);
-            enemy1_x += enemy1_speed;
-            }
-        if(enemy2_alive)
-        {
-            DrawTextureEx(enemy2,{enemy2_x,enemy2_y},0.0f,0.05f,WHITE);
-            enemy2_x += enemy2_speed;
-            }
-        if(enemy3_alive)
-        {
-            DrawTextureEx(enemy3,{enemy3_x,enemy3_y},0.0f,0.08f,WHITE);
-            enemy3_x += enemy3_speed;
-            }
-        if(enemy4_alive)
-        {
-            DrawTextureEx(enemy4,{enemy4_x,enemy4_y},0.0f,0.05f,WHITE);
-            enemy4_x += enemy4_speed;
-            }
-        if(enemy5_alive)
-        {
-            DrawTextureEx(enemy5,{enemy5_x,enemy5_y},0.0f,0.08f,WHITE);
-            enemy5_x += enemy5_speed;
-            }
+            enemy.alive = false;
+        }
+    }
 }
 
-void particle(){
 
-    if (IsKeyPressed(KEY_X)){
+void enemy_movement(Enemy& enemy)
+{
+    if (!enemy.alive)
+        return;
+
+    if (enemy.speed > 0 && enemy.x > GetScreenWidth())
+    {
+        enemy.x = 50;
+    }
+
+    if (enemy.speed < 0 && enemy.x < 0)
+    {
+        enemy.x = 950;
+    }
+
+    enemy.x += enemy.speed;
+
+    enemy.rect = {
+        enemy.x,
+        enemy.y,
+        enemy.texture.width * enemy.scale,
+        enemy.texture.height * enemy.scale
+    };
+
+    DrawTextureEx(
+        enemy.texture,
+        {enemy.x, enemy.y},
+        0.0f,
+        enemy.scale,
+        WHITE
+    );
+}
+
+
+void particle()
+{
+    if (IsKeyPressed(KEY_X))
+    {
         particle_y = spaceship_y;
-        particle_x = spaceship_x+57;
-        particle_active = true;}
+        particle_x = spaceship_x + 57;
+        particle_active = true;
+    }
 
-    if (particle_active) {
+    if (particle_active)
+    {
         DrawCircle(particle_x, particle_y, 5, WHITE);
         particle_y -= particle_speed;
     }
 
     if (particle_y < 0)
-    particle_active = false;
+        particle_active = false;
 }
 
 
@@ -199,74 +133,110 @@ int main(void)
 {
     InitWindow(700, 1150, "Space Shooter");
 
-
     Texture2D spaceship = LoadTexture("BAOyZX.png");
-    Texture2D enemy1 = LoadTexture("32295-6-space-invaders-transparent-background.png");
-    Texture2D enemy2 = LoadTexture("32282-4-space-invaders-free-download.png");
-    Texture2D enemy3 = LoadTexture("32295-6-space-invaders-transparent-background.png");
-    Texture2D enemy4 = LoadTexture("32282-4-space-invaders-free-download.png");
-    Texture2D enemy5 = LoadTexture("32295-6-space-invaders-transparent-background.png");
+
+    Texture2D enemyTexture1 =
+        LoadTexture("32295-6-space-invaders-transparent-background.png");
+
+    Texture2D enemyTexture2 =
+        LoadTexture("32282-4-space-invaders-free-download.png");
+
     Texture2D star = LoadTexture("gala.jpg");
+
+
+    // Enemy 1
+    enemy1.x = 0;
+    enemy1.y = 100;
+    enemy1.speed = 0.1;
+    enemy1.health = 2;
+    enemy1.alive = true;
+    enemy1.texture = enemyTexture1;
+    enemy1.scale = 0.08;
+
+
+    // Enemy 2
+    enemy2.x = 900;
+    enemy2.y = 200;
+    enemy2.speed = -0.1;
+    enemy2.health = 2;
+    enemy2.alive = true;
+    enemy2.texture = enemyTexture2;
+    enemy2.scale = 0.05;
+
+
+    // Enemy 3
+    enemy3.x = 200;
+    enemy3.y = 300;
+    enemy3.speed = 0.15;
+    enemy3.health = 2;
+    enemy3.alive = true;
+    enemy3.texture = enemyTexture1;
+    enemy3.scale = 0.08;
+
+
+    // Enemy 4
+    enemy4.x = 700;
+    enemy4.y = 400;
+    enemy4.speed = 0.12;
+    enemy4.health = 2;
+    enemy4.alive = true;
+    enemy4.texture = enemyTexture2;
+    enemy4.scale = 0.05;
+
+
+    // Enemy 5
+    enemy5.x = 500;
+    enemy5.y = 500;
+    enemy5.speed = -0.08;
+    enemy5.health = 2;
+    enemy5.alive = true;
+    enemy5.texture = enemyTexture1;
+    enemy5.scale = 0.08;
+
 
     while (!WindowShouldClose())
     {
         spaceship_movement();
+
         BeginDrawing();
+
         ClearBackground(BLACK);
-        DrawTextureEx(star,{0,0},0.0f,1.5f,WHITE);
-        DrawTextureEx(spaceship, {spaceship_x, spaceship_y},0.0f,0.2f, WHITE);
-                Rectangle enemyrect1 = {
-            enemy1_x,
-            enemy1_y,
-            enemy1.width * 0.08f,
-            enemy1.height * 0.08f
-        };
-        Rectangle enemyrect2 = {
-            enemy2_x,
-            enemy2_y,
-            enemy2.width * 0.05f,
-            enemy2.height * 0.05f
-        };
-        Rectangle enemyrect3 = {
-            enemy3_x,
-            enemy3_y,
-            enemy3.width * 0.08f,
-            enemy3.height * 0.08f
-        };
-        Rectangle enemyrect4 = {
-            enemy4_x,
-            enemy4_y,
-            enemy4.width * 0.05f,
-            enemy4.height * 0.05f
-        };
-        Rectangle enemyrect5 = {
-            enemy5_x,
-            enemy5_y,
-            enemy5.width * 0.08f,
-            enemy5.height * 0.08f
-        };
-        if (enemy2_alive<=0){
-            enemy2_alive = false;
-        }
-        if (enemy3_alive<=0){
-            enemy3_alive = false;
-        }
-        if (enemy4_alive<=0){
-            enemy4_alive = false;
-        }
-        enemy_movement(enemy1,
-    enemy2,
-    enemy3,
-    enemy4,
-    enemy5,
-    enemyrect1,
-    enemyrect2,
-    enemyrect3,
-    enemyrect4,
-    enemyrect5);
-        collison(enemyrect1,enemyrect2,enemyrect3,enemyrect4,enemyrect5);
+
+        DrawTextureEx(
+            star,
+            {0, 0},
+            0.0f,
+            1.5f,
+            WHITE
+        );
+
+        DrawTextureEx(
+            spaceship,
+            {spaceship_x, spaceship_y},
+            0.0f,
+            0.2f,
+            WHITE
+        );
+
+
+        enemy_movement(enemy1);
+        enemy_movement(enemy2);
+        enemy_movement(enemy3);
+        enemy_movement(enemy4);
+        enemy_movement(enemy5);
+
+
+        collision(enemy1);
+        collision(enemy2);
+        collision(enemy3);
+        collision(enemy4);
+        collision(enemy5);
+
+
         particle();
+
         EndDrawing();
     }
+
     return 0;
 }
