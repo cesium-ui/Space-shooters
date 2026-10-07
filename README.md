@@ -1,119 +1,53 @@
 # Space Shooter
 
-A simple 2D space shooter game built from scratch in C++ using Raylib.
+A simple 2D space shooter built with **C++ and Raylib** to practice game development and C++ fundamentals.
 
-The project is focused on learning game-development fundamentals such as player movement, enemy movement, projectile mechanics, collision detection, and health systems.
+## Features
 
-## Current Features
-
-* Player spaceship movement
-* Projectile shooting
-* Multiple enemies
-* Different enemy movement speeds and directions
-* Enemy health system
-* Projectile-enemy collision detection
-* Enemy destruction
-* Texture-based sprites
-* Space background
+* WASD player movement
+* Enemy movement and health
+* Bullet shooting with X
+* Bullet-enemy collision
+* Multiple enemy textures
+* Background and sprite rendering
+* Enemy system using C++ structs
 
 ## How to Play
 
-### 1. Download the Game
-
-Download the repository from GitHub using either:
-
-* **Code → Download ZIP**, then extract the ZIP file
-* Or clone the repository using Git:
+Clone the repository:
 
 ```bash
-git clone https://github.com/cesium-ui/Space-shooters
+git clone https://github.com/cesium-ui/Space-shooters.git
+cd Space-shooters
 ```
 
-### 2. Download the Required Files
-
-Make sure all required image assets are present in the same directory as the game executable or in the locations specified by the source code.
-
-Required assets include:
-
-* `BAOyZX.png`
-* `32295-6-space-invaders-transparent-background.png`
-* `32282-4-space-invaders-free-download.png`
-* `gala.jpg`
-
-### 3. Run the Game
-
-If a pre-built `main.exe` is provided, simply run:
+Make sure these assets are in the project folder:
 
 ```text
-main.exe
+BAOyZX.png
+32295-6-space-invaders-transparent-background.png
+32282-4-space-invaders-free-download.png
+gala.jpg
 ```
 
-Make sure the required asset files are available when running the executable.
+Run the prebuilt `main.exe`, or compile `main.cpp` with Raylib.
 
-If you want to build the game yourself, you will need a C++ compiler and Raylib installed.
+## Controls
 
-### Controls
+| Key     | Action |
+| ------- | ------ |
+| W A S D | Move   |
+| X       | Shoot  |
 
-| Key | Action     |
-| --- | ---------- |
-| `W` | Move up    |
-| `A` | Move left  |
-| `S` | Move down  |
-| `D` | Move right |
-| `X` | Shoot      |
+## What I Learned
 
-### Objective
-
-Move the spaceship and shoot the enemies.
-
-Each enemy has health and requires multiple hits to be destroyed.
-
-## Development Progress
-
-### Completed
-
-* [x] Player movement
-* [x] Player boundaries
-* [x] Enemy placement
-* [x] Enemy movement
-* [x] Projectile system
-* [x] Enemy health
-* [x] Collision detection
-* [x] Enemy destruction
-
-### Planned
-
-* [ ] Multiple projectiles
-* [ ] Enemy shooting
-* [ ] Player health
-* [ ] Score system
-* [ ] Different enemy types
-* [ ] Particle effects
-* [ ] Sound effects
-* [ ] Animated background
-* [ ] Game over screen
-* [ ] Start/restart system
-* [ ] Increasing difficulty
-* [ ] Boss enemy
-
-## What I'm Learning
-
-This project is being used to learn practical C++ and game-development concepts:
-
-* Functions
-* Variables and data types
-* Conditional statements
-* Loops
-* Structs and objects
+* C++ structs and references
+* Functions and game loops
+* Raylib rendering and input
 * Collision detection
-* Game loops
-* Coordinates
-* Texture handling
-* Basic game architecture
-* Git/GitHub workflow
+* Basic game logic
+* Debugging and code refactoring
 
 ## Status
 
-Work in progress.
-
-This is a learning project and will continue to evolve as new gameplay systems are added.
+Completed learning project. Moving on to the next project.
